@@ -5,3 +5,5 @@ const withClass = props => (
 );
 
 export default withClass;
+
+// use as alternative to div or aux in a component
