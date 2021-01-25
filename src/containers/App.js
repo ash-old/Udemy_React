@@ -6,22 +6,23 @@ import Cockpit from '../components/Cockpit/Cockpit';
 class App extends Component {
   constructor(props) {
     super(props);
-    
+
   }
-  
+
   state = {
     persons: [
-      {id: 1, name: 'Ash', age: 39},
-      {id: 2, name: 'Moo', age: 5},
-      {id: 3, name: "Sho", age: 34}
+      { id: 1, name: 'Ash', age: 39 },
+      { id: 2, name: 'Moo', age: 5 },
+      { id: 3, name: "Sho", age: 34 }
     ],
-    showPersons: false
+    showPersons: false,
+    counter: 0
   }
 
   deletePersonHandler = (personIndex) => {
     const persons = this.state.persons.slice();
     persons.splice(personIndex, 1);
-    this.setState({persons: persons})
+    this.setState({ persons: persons })
   }
 
   nameChangedHandler = (event, id) => {
@@ -38,34 +39,39 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({persons: persons})
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        counter: prevState.counter + 1
+      }
+    })
   }
 
 
   togglePersonHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({showPersons: !doesShow});
+    this.setState({ showPersons: !doesShow });
   }
 
   render() {
-   
+
     let persons = null;
 
-    if(this.state.showPersons) {
-      persons = <Persons 
-            persons={this.state.persons}
-            clicked={this.deletePersonHandler}
-            changed={this.nameChangedHandler}
-          />
+    if (this.state.showPersons) {
+      persons = <Persons
+        persons={this.state.persons}
+        clicked={this.deletePersonHandler}
+        changed={this.nameChangedHandler}
+      />
     }
 
     return (
       <div className='App'>
-        <Cockpit 
-              title={this.props.title}
-              showPersons={this.state.showPersons}
-              persons={this.state.persons}
-              toggle={this.togglePersonHandler}
+        <Cockpit
+          title={this.props.title}
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          toggle={this.togglePersonHandler}
         />
         {persons}
       </div>
